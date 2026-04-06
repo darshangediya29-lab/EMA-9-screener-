@@ -1,59 +1,99 @@
-# EMA9 Screener — Deploy Guide
-# Railway + Built-in PostgreSQL (no MongoDB needed)
+# EMA9 Screener — Free Deploy Guide
+# Render (server) + Supabase (database) — DONO FREE, card nahi chahiye
 
-Sirf Railway chahiye — database bhi wahi milega FREE mein.
+═══════════════════════════════════════════
+STEP 1 — Supabase (Free Database)
+═══════════════════════════════════════════
 
-═══════════════════════════════════════
-STEP 1 — GitHub par upload karo
-═══════════════════════════════════════
+1. supabase.com → "Start your project" → GitHub se signup karo
+2. "New Project" dabao:
+     Name     : ema9-screener
+     Password : kuch bhi (yaad rakhna)
+     Region   : Southeast Asia (Singapore)
+3. Project banne mein ~2 min lagenge
 
-1. github.com → Sign up / Login
-2. New Repository → Name: ema9-screener → Public → Create
-3. "uploading an existing file" click karo
-4. In files ko drag karo:
+4. Connection string lena:
+   - Left sidebar → Settings (gear icon)
+   - "Database" tab
+   - "Connection string" section → "URI" tab
+   - String copy karo — aisa dikhega:
+     postgresql://postgres:[PASSWORD]@db.xxxx.supabase.co:5432/postgres
+   - [PASSWORD] ki jagah apna password daalo
+
+═══════════════════════════════════════════
+STEP 2 — GitHub par upload karo
+═══════════════════════════════════════════
+
+1. github.com → New Repository
+   Name: ema9-screener → Public → Create
+
+2. "uploading an existing file" click karo
+3. In files drag karo:
      server.js
      package.json
-     railway.json
+     render.yaml
      .gitignore
-     public/index.html   ← (public folder ke andar)
-5. "Commit changes" dabao
+     public/index.html   (public folder ke saath)
 
-═══════════════════════════════════════
-STEP 2 — Railway par deploy karo
-═══════════════════════════════════════
+4. "Commit changes"
 
-1. railway.app par jao → GitHub se Login karo
-2. "New Project" → "Deploy from GitHub repo"
-3. ema9-screener repo select karo
-4. Deploy start ho jaayega ✓
+═══════════════════════════════════════════
+STEP 3 — Render (Free Server)
+═══════════════════════════════════════════
 
-═══════════════════════════════════════
-STEP 3 — PostgreSQL database add karo
-═══════════════════════════════════════
+1. render.com → "Get Started for Free"
+   → GitHub se login karo
 
-1. Railway project mein jao
-2. "+ New" button dabao → "Database" → "PostgreSQL" select karo
-3. PostgreSQL service ban jaayegi
-4. Ab apni app service click karo → "Variables" tab
-5. "+ New Variable" dabao:
-     Name:  DATABASE_URL
-     Value: (PostgreSQL service click karo → "Connect" tab → Connection URL copy karo)
-6. App automatically redeploy ho jaayegi
+2. "New +" → "Web Service"
 
-═══════════════════════════════════════
-STEP 4 — URL lo aur use karo
-═══════════════════════════════════════
+3. GitHub repo connect karo → ema9-screener select karo
 
-1. App service → "Settings" tab
-2. "Domains" → "Generate Domain"
-3. URL milega:  https://ema9-screener-xxxx.up.railway.app
+4. Settings:
+     Name     : ema9-screener
+     Runtime  : Node
+     Build    : npm install
+     Start    : node server.js
+     Plan     : FREE ✓
 
-✅ Bas! Is URL ko bookmark karo.
-   24/7 chalta rahega. Logs hamesha safe rahenge.
+5. "Environment Variables" section mein:
+     Key   : DATABASE_URL
+     Value : (Step 1 ka connection string paste karo)
 
-═══════════════════════════════════════
+6. "Create Web Service" dabao
+
+═══════════════════════════════════════════
+STEP 4 — URL milega
+═══════════════════════════════════════════
+
+Deploy hone mein ~3-4 min lagenge.
+Phir URL milega:
+  https://ema9-screener.onrender.com
+
+✅ Isko bookmark karo — kahi se bhi kholo!
+
+═══════════════════════════════════════════
+⚠️  EK IMPORTANT BAAT — Render Free Plan
+═══════════════════════════════════════════
+
+Render ka free server 15 min inactivity ke baad
+"sleep" ho jaata hai. Jab aap page kholo toh
+~30 sec mein wapas start ho jaata hai.
+
+Scanner aur logs safe rehte hain — Supabase mein.
+
+Isko fix karne ke liye (optional):
+UptimeRobot (free) se har 10 min mein
+ping karo — server kabhi sleep nahi karega.
+
+  uptimerobot.com → "Add New Monitor"
+  Type: HTTP(s)
+  URL : https://ema9-screener.onrender.com/api/status
+  Interval: 10 minutes
+
+═══════════════════════════════════════════
 FREE LIMITS
-═══════════════════════════════════════
+═══════════════════════════════════════════
 
-Railway   : $5 free credit/month (kafi hai 24/7 ke liye)
-PostgreSQL: 1GB free storage (hazaaron trades)
+Render   : Free forever (web service)
+Supabase : 500MB database, free forever
+UptimeRobot : 50 monitors free
