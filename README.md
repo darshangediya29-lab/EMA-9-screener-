@@ -1,65 +1,59 @@
-# EMA9 Screener — Cloud Deployment Guide
+# EMA9 Screener — Deploy Guide
+# Railway + Built-in PostgreSQL (no MongoDB needed)
 
-Browser band ho, server band ho — koi baat nahi.
-Railway (free) + MongoDB Atlas (free) par 24/7 chalta rahega.
+Sirf Railway chahiye — database bhi wahi milega FREE mein.
 
----
+═══════════════════════════════════════
+STEP 1 — GitHub par upload karo
+═══════════════════════════════════════
 
-## Step 1 — MongoDB Atlas (Free Database)
+1. github.com → Sign up / Login
+2. New Repository → Name: ema9-screener → Public → Create
+3. "uploading an existing file" click karo
+4. In files ko drag karo:
+     server.js
+     package.json
+     railway.json
+     .gitignore
+     public/index.html   ← (public folder ke andar)
+5. "Commit changes" dabao
 
-1. https://mongodb.com/cloud/atlas → "Try Free" → account banao
-2. "Build a Database" → M0 Free → AWS Mumbai → Create
-3. Username/password set karo (yaad rakho)
-4. Security → Network Access → "Add IP Address" → "Allow from Anywhere"
-5. Connect → Drivers → Node.js → connection string copy karo:
-   ```
-   mongodb+srv://USER:PASSWORD@cluster.xxxxx.mongodb.net/?retryWrites=true&w=majority
-   ```
+═══════════════════════════════════════
+STEP 2 — Railway par deploy karo
+═══════════════════════════════════════
 
----
+1. railway.app par jao → GitHub se Login karo
+2. "New Project" → "Deploy from GitHub repo"
+3. ema9-screener repo select karo
+4. Deploy start ho jaayega ✓
 
-## Step 2 — GitHub
+═══════════════════════════════════════
+STEP 3 — PostgreSQL database add karo
+═══════════════════════════════════════
 
-1. https://github.com → New repository → `ema9-screener` → Public → Create
-2. "uploading an existing file" → in files ko drag karo:
-   - server.js
-   - package.json
-   - railway.json
-   - .gitignore
-   - public/index.html
-3. Commit changes
+1. Railway project mein jao
+2. "+ New" button dabao → "Database" → "PostgreSQL" select karo
+3. PostgreSQL service ban jaayegi
+4. Ab apni app service click karo → "Variables" tab
+5. "+ New Variable" dabao:
+     Name:  DATABASE_URL
+     Value: (PostgreSQL service click karo → "Connect" tab → Connection URL copy karo)
+6. App automatically redeploy ho jaayegi
 
----
+═══════════════════════════════════════
+STEP 4 — URL lo aur use karo
+═══════════════════════════════════════
 
-## Step 3 — Railway
+1. App service → "Settings" tab
+2. "Domains" → "Generate Domain"
+3. URL milega:  https://ema9-screener-xxxx.up.railway.app
 
-1. https://railway.app → GitHub se login karo
-2. New Project → Deploy from GitHub → `ema9-screener` select karo
-3. Variables tab → New Variable:
-   - `MONGODB_URI` = (Step 1 ka connection string)
-4. Railway auto-deploy karega
-5. Settings → Domains → Generate Domain → URL milega:
-   `https://ema9-screener-xxxx.up.railway.app`
+✅ Bas! Is URL ko bookmark karo.
+   24/7 chalta rahega. Logs hamesha safe rahenge.
 
-✅ Bas itna! Is URL ko bookmark karo.
+═══════════════════════════════════════
+FREE LIMITS
+═══════════════════════════════════════
 
----
-
-## Local chalana
-
-.env file banao:
-```
-MONGODB_URI=mongodb+srv://...
-PORT=3000
-```
-```bash
-npm install
-node server.js
-```
-
----
-
-## Strategy
-
-Cross Candle: EMA9 cross · close above/below · body ≥ 75%
-Conf Candle:  high > cross high · close > cross close · body ≥ 75% · vol > cross vol
+Railway   : $5 free credit/month (kafi hai 24/7 ke liye)
+PostgreSQL: 1GB free storage (hazaaron trades)

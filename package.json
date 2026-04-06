@@ -1,16 +1,11 @@
 {
   "name": "ema9-screener",
   "version": "2.0.0",
-  "description": "EMA9 Crypto Screener — Binance Perp Futures",
   "main": "server.js",
-  "scripts": {
-    "start": "node server.js"
-  },
-  "engines": {
-    "node": ">=18"
-  },
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=18" },
   "dependencies": {
     "express": "^4.18.2",
-    "mongoose": "^8.3.0"
+    "pg": "^8.11.3"
   }
 }
